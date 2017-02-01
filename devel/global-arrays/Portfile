@@ -1,0 +1,60 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem          1.0
+PortGroup           mpi 1.0
+
+name                global-arrays
+version             5.5
+revision            10746
+categories          math
+license             LGPL-2.1
+platforms           darwin
+maintainers         william.perkins@pnnl.gov
+description         Primitives for one-sided communication. 
+long_description    Global Arrays (GA) is a Partitioned Global Address \
+                    Space (PGAS) programming model. It provides \
+                    primitives for one-sided communication (Get, Put, \
+                    Accumulate) and Atomic Operations (read \
+                    increment). It supports blocking and non-blocking \
+                    primtives, and supports location consistency.
+
+homepage            http://hpc.pnl.gov/globalarrays/
+
+fetch.type          svn
+fetch.user          anonymous
+fetch.password      anonymous
+svn.url             https://anonymous@svn.pnl.gov/svn/hpctools/branches/ga-5-5
+svn.revision        10746
+svn.method          export
+svn.post_args       --username ${fetch.user} --password ${fetch.password}
+
+universal_variant   no
+worksrcdir          ga-5-5
+
+mpi.setup           require
+
+configure.args \
+    MPICC=${mpi.cc} \
+    MPIEXEC=${prefix}/bin/${mpi.exec} \
+    --disable-cxx \
+    --disable-f77 \
+    --disable-assert \
+    --enable-i4 \
+    --with-mpi \
+    --with-mpi-ts \
+    --enable-autodetect=yes \
+    --without-blas \
+    --without-lapack \
+    --without-scalapack \
+    --enable-shared=yes \
+    --enable-static=yes \
+    --prefix=${prefix}
+
+variant cxx description {Build with C++ API.} {
+    configure.args-delete --disable-cxx
+    configure.args-append --enable-cxx MPICXX=${mpi.cxx}
+}
+
+destroot.destdir    prefix=${destroot}${prefix}
+
