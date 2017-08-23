@@ -56,10 +56,8 @@ variant cxx description {Build with C++ API.} {
     configure.args-append --enable-cxx MPICXX=${mpi.cxx}
 }
 
-variant fortran description { Build with Fortran API.} {
+variant fortran description {Build with Fortran API. } {
     configure.args-delete --disable-f77
     configure.args-append --enable-f77 MPIF77=${mpi.fc}
 }
-
-destroot.destdir    prefix=${destroot}${prefix}
 
