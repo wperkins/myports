@@ -1,0 +1,47 @@
+PortSystem          1.0
+PortGroup           compilers 1.0
+PortGroup           cmake 1.0
+
+name                mass1-devel
+version             2.0
+revision            beta
+categories          science
+license             BSD
+platforms           darwin
+maintainers         william.perkins@pnnl.gov
+description         Modular Aquatic Simulation System 1D
+long_description    MASS1 is a one-dimensional unsteady hydrodynamic \
+                    and water quality model capable of simulating open \
+                    channel flows, water surface elevations, dissolved \
+                    gas, and water temperature. The model is \
+                    applicable to any branched channel system. Because \
+                    MASS1 uses cross-section averaging, only single \
+                    values of water surface elevation, velocity, \
+                    discharge, and temperature are produced at each \
+                    cross-section location along the river \
+                    course. Lateral (i.e., across the river channel) \
+                    and vertical variations of these quantities are \
+                    not simulated. Development version available only behind \
+                    PNNL firewall.  
+
+homepage            https://github.com/pnnl/mass1
+
+fetch.type          git
+git.url             https://stash.pnnl.gov/scm/~d3g096/mass1.git
+git.branch          dhsvm
+post-fetch {
+    system -W ${worksrcpath} "git submodule update --init"
+}
+
+use_parallel_build  no
+
+configure.fcflags-append -ffpe-trap=invalid,zero,overflow
+
+compilers.choose    fc f77 f90
+compilers.setup     require_fortran -dragonegg -g95
+
+conflicts           mass1
+universal_variant   no
+
+
+
