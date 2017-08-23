@@ -2,6 +2,7 @@
 
 PortSystem          1.0
 PortGroup           cmake 1.0
+PortGroup           github 1.0
 
 name                cgnslib
 version             3.2.1
@@ -22,13 +23,16 @@ long_description    \
     It is self-descriptive, machine-independent, well-documented, and \
     administered by an international steering committee.
 
-homepage            http://cgns.sourceforge.net/
-master_sites        sourceforge:cgns
-distname            ${name}_${branch}.${minor}
-worksrcdir          ${name}_${branch}.${minor}
+homepage            https://cgns.github.io/
 
-checksums           sha1    ac8e4d226da9397d79385c19a7cea82b4abc1983 \
-                    rmd160  6542858178df461d831db9d2a38f6f97ca20be12
+github.setup        CGNS CGNS ${version} v
+
+distname            CGNS-v${version}
+worksrcdir          CGNS-v${version}
+
+
+checksums           sha1    29c4056da95f497745c207f88b83a7bab6ab785f \
+                    rmd160  d95ac10a6bff168f607f98002b2f0c37d7245f1e
 
 # HDF5 > 1.8 does not work with CGNS 3.2.1, use 1.8.x
 # depends_lib         port:hdf5
