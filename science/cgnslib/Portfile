@@ -3,6 +3,7 @@
 PortSystem          1.0
 PortGroup           cmake 1.0
 PortGroup           github 1.0
+PortGroup           compilers 1.0
 
 name                cgnslib
 version             3.2.1
@@ -30,7 +31,6 @@ github.setup        CGNS CGNS ${version} v
 distname            CGNS-v${version}
 worksrcdir          CGNS-v${version}
 
-
 checksums           sha1    29c4056da95f497745c207f88b83a7bab6ab785f \
                     rmd160  d95ac10a6bff168f607f98002b2f0c37d7245f1e
 
@@ -38,19 +38,22 @@ checksums           sha1    29c4056da95f497745c207f88b83a7bab6ab785f \
 # depends_lib         port:hdf5
 depends_lib         port:hdf5-18
 
-configure.args-append -D CGNS_BUILD_CGNSTOOLS:BOOL=OFF \
-                      -D CGNS_BUILD_SHARED:BOOL=OFF \
-                      -D CGNS_USE_SHARED:BOOL=OFF \
-                      -D CGNS_ENABLE_LEGACY:BOOL=OFF \
-                      -D CGNS_ENABLE_64BIT:BOOL=OFF \
-                      -D CGNS_ENABLE_FORTRAN:BOOL=OFF \
-                      -D CGNS_ENABLE_TESTS:BOOL=OFF \
-                      -D CGNS_ENABLE_HDF5:BOOL=TRUE \
-                      -D HDF5_INCLUDE_PATH:PATH="${prefix}/lib/hdf5-18/include" \
-                      -D HDF5_LIBRARY:PATH="${prefix}/lib/hdf5-18/lib/libhdf5.a" \
-                      -D HDF5_NEED_MPI:BOOL=FALSE \
-                      -D HDF5_NEED_ZLIB:BOOL=TRUE \
-                      -D HDF5_NEED_SZIP:BOOL=FALSE
+compilers.choose    fc f90
+compilers.setup     -dragonegg -g95
+
+configure.args-append \
+    -D CGNS_BUILD_CGNSTOOLS:BOOL=OFF \
+    -D CGNS_BUILD_SHARED:BOOL=OFF \
+    -D CGNS_USE_SHARED:BOOL=OFF \
+    -D CGNS_ENABLE_LEGACY:BOOL=OFF \
+    -D CGNS_ENABLE_64BIT:BOOL=OFF \
+    -D CGNS_ENABLE_TESTS:BOOL=OFF \
+    -D CGNS_ENABLE_HDF5:BOOL=TRUE \
+    -D HDF5_INCLUDE_PATH:PATH="${prefix}/lib/hdf5-18/include" \
+    -D HDF5_LIBRARY:PATH="${prefix}/lib/hdf5-18/lib/libhdf5.a" \
+    -D HDF5_NEED_MPI:BOOL=FALSE \
+    -D HDF5_NEED_ZLIB:BOOL=TRUE \
+    -D HDF5_NEED_SZIP:BOOL=FALSE
 
 
 # variant tools description { Build and install CGNS tools. } {
@@ -58,10 +61,13 @@ configure.args-append -D CGNS_BUILD_CGNSTOOLS:BOOL=OFF \
 #     configrue.args-append "-D CGNS_BUILD_CGNSTOOLS:BOOL=ON"
 # }
 
-# variant fortran description { Build Fortran API. } {
-#     configure.args-delete "-D CGNS_ENABLE_FORTRAN:BOOL=OFF"
-#     configure.args-append "-D CGNS_ENABLE_FORTRAN:BOOL=ON"
-# }
+variant fortran description {Build with Fortran API. } {
+    configure.args-append "-D CGNS_ENABLE_FORTRAN:BOOL=ON"
+}
 
+if {[ variant_isset fortran ] && ![ fortran_variant_isset ] } {
+    ui_error "+fortran requires a fortran compiler to be selected"
+    return -code error
+}
 
 universal_variant   no
