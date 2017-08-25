@@ -4,7 +4,7 @@ PortGroup           cmake 1.0
 
 name                mass1-devel
 version             2.0
-revision            beta
+revision            0
 categories          science
 license             BSD
 platforms           darwin
