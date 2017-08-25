@@ -7,7 +7,6 @@ PortGroup           compilers 1.0
 
 name                cgnslib
 version             3.2.1
-revision            1
 set branch          [join [lrange [split ${version} .] 0 1] .]
 set minor           [lindex [split ${version} .] end]
 
