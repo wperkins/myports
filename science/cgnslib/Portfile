@@ -70,4 +70,13 @@ if {[ variant_isset fortran ] && ![ fortran_variant_isset ] } {
     return -code error
 }
 
+# I version 3.2.1, the Fortran header is broken because they decided
+# to use 'c' for comments.  Fix it before installation.
+
+pre-configure {
+    if {[ variant_isset fortran ]} {
+        reinplace -W ${worksrcpath}/src "s/^c/!/g" cgnslib_f.h.in
+    }
+}
+
 universal_variant   no
