@@ -1,0 +1,46 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.0
+
+name                libloki
+version             0.1.7
+revision            0
+
+categories          devel
+platforms           darwin
+maintainers         nomaintainer
+license             MIT
+
+configure.pre_args -DLOKI_ENABLE_TESTING:BOOL=NO
+
+description         C++ library implementating common design patterns and idioms.
+
+long_description    \
+    From Wikipedia: Loki is the name of a C++ software library written \
+    by Andrei Alexandrescu as part of his book Modern C++ Design. \
+    The library makes extensive use of C++ template metaprogramming \
+    and implements several commonly used tools: typelist, functor, \
+    singleton, smart pointer, object factory, visitor and \
+    multimethods. \
+    Originally the library was only compatible with two of the most \
+    standard conforming C++ compilers (CodeWarrior and Comeau C/C++): \
+    later efforts have made it usable with a wide array of compilers \
+    (including older Visual C++ 6.0, Borland C++ Builder 6.0, Clang \
+    and GCC). Compiler vendors used Loki as a compatibility benchmark, \
+    further increasing the number of compliant compilers. \
+    Maintenance and further development of Loki has been continued \
+    through an open-source community led by Peter Kümmel and Richard \
+    Sposato as a SourceForge project. Ongoing contributions by many \
+    people have improved the overall robustness and functionality of \
+    the library. Loki is not tied to the book anymore as it already \
+    has a lot of new components (e.g. StrongPtr, Printf, and \
+    Scopeguard). Loki inspired similar tools and functionality now \
+    also present in the Boost library collection. \
+
+homepage            http://loki-lib.sourceforge.net/
+
+fetch.type          git
+git.url             https://github.com/wperkins/loki-lib.git
+
+universal_variant   no
