@@ -12,7 +12,9 @@ platforms           darwin
 maintainers         nomaintainer
 license             MIT
 
-configure.pre_args -DLOKI_ENABLE_TESTING:BOOL=NO
+configure.pre_args \
+    -DLOKI_ENABLE_TESTING:BOOL=NO \
+    -DCMAKE_INSTALL_PREFIX:PATH="${prefix}"
 
 description         C++ library implementating common design patterns and idioms.
 
