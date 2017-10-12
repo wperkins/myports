@@ -11,7 +11,7 @@ commit to maintain them.
 My Macs are behind a firewall, so I
 [sync Macports with git](https://trac.macports.org/wiki/howto/SyncingWithGit).
 Using this ports repository is just like using the
-[main repository](main Github repository). 
+[main repository](https://github.com/macports/macports-ports). 
 
 To use these ports, clone the repository in a convenient place, for
 example,
