@@ -34,9 +34,13 @@ checksums           sha1    f7a0cb74e499f0029405c2cd34fc71e4ac292600 \
 
 mpi.setup           require
 
-pre-configure {
-    system "cd ${worksrcpath}; ./autogen.sh"
-}
+# This downloads and builds autotools -- unnecessary
+# pre-configure {
+#     system "cd ${worksrcpath}; ./autogen.sh"
+# }
+
+use_autoreconf      yes
+autoreconf.args     -fiv
 
 configure.args \
     MPICC=${mpi.cc} \
