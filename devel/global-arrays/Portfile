@@ -51,6 +51,11 @@ configure.args \
     --enable-static=yes \
     --prefix=${prefix}
 
+variant static description {Build only static libraries.} {
+    configure.args-delete --enable-shared=yes
+    configure.args-append --enable-shared=no
+}
+
 variant cxx description {Build with C++ API.} {
     configure.args-delete --disable-cxx
     configure.args-append --enable-cxx MPICXX=${mpi.cxx}
