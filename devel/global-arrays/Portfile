@@ -3,10 +3,11 @@
 
 PortSystem          1.0
 PortGroup           mpi 1.0
+PortGroup           github 1.0
 
 name                global-arrays
-version             5.5
-revision            10746
+version             5.6.2
+revision            0
 categories          math
 license             BSD
 platforms           darwin
@@ -21,18 +22,21 @@ long_description    Global Arrays (GA) is a Partitioned Global Address \
 
 homepage            http://hpc.pnl.gov/globalarrays/
 
-fetch.type          svn
-fetch.user          anonymous
-fetch.password      anonymous
-svn.url             https://anonymous@svn.pnl.gov/svn/hpctools/branches/ga-5-5
-svn.revision        10746
-svn.method          export
-svn.post_args       --username ${fetch.user} --password ${fetch.password}
+github.setup        GlobalArrays ga ${version} v
+
 
 universal_variant   no
-worksrcdir          ga-5-5
+worksrcdir          ga-${version}
+
+checksums           sha1    f7a0cb74e499f0029405c2cd34fc71e4ac292600 \
+                    rmd160  2e6b0b7fd9f46077ba700543801920f7a56bea15 \
+                    sha256  1fd17c78eecaf6186333f3633230c67a210098a87d9934a9613c084d3e4ddb0f
 
 mpi.setup           require
+
+pre-configure {
+    system "cd ${worksrcpath}; ./autogen.sh"
+}
 
 configure.args \
     MPICC=${mpi.cc} \
