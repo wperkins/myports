@@ -7,7 +7,7 @@ PortGroup           github 1.0
 
 name                global-arrays
 version             5.6.2
-revision            0
+revision            1
 categories          math
 license             BSD
 platforms           darwin
@@ -17,7 +17,7 @@ long_description    Global Arrays (GA) is a Partitioned Global Address \
                     Space (PGAS) programming model. It provides \
                     primitives for one-sided communication (Get, Put, \
                     Accumulate) and Atomic Operations (read \
-                    increment). It supports blocking and non-blocking \
+                    increment). It supports blockinbg and non-blocking \
                     primtives, and supports location consistency.
 
 homepage            http://hpc.pnl.gov/globalarrays/
@@ -32,9 +32,12 @@ checksums           sha1    f7a0cb74e499f0029405c2cd34fc71e4ac292600 \
                     rmd160  2e6b0b7fd9f46077ba700543801920f7a56bea15 \
                     sha256  1fd17c78eecaf6186333f3633230c67a210098a87d9934a9613c084d3e4ddb0f
 
-mpi.setup           require
+mpi.setup           require -gcc
 
-# This downloads and builds autotools -- unnecessary
+
+# This downloads and builds autotools, and maybe something else, but
+# it seems that just using autoreconf works
+
 # pre-configure {
 #     system "cd ${worksrcpath}; ./autogen.sh"
 # }
@@ -42,22 +45,34 @@ mpi.setup           require
 use_autoreconf      yes
 autoreconf.args     -fiv
 
-configure.args \
-    MPICC=${mpi.cc} \
-    MPIEXEC=${prefix}/bin/${mpi.exec} \
-    --disable-cxx \
-    --disable-f77 \
-    --disable-assert \
-    --enable-i4 \
-    --with-mpi \
-    --with-mpi-ts \
-    --enable-autodetect=yes \
-    --without-blas \
-    --without-lapack \
-    --without-scalapack \
-    --enable-shared=yes \
-    --enable-static=yes \
-    --prefix=${prefix}
+pre-configure {        
+    configure.args-append \
+        MPICC="${configure.cc}" \
+        MPICXX="${configure.cxx}" \
+        MPIF77="${configure.fc}" \
+        COPTFLAGS="${configure.optflags}" \
+        CXXOPTFLAGS="${configure.optflags}" \
+        FOPTFLAGS="${configure.optflags}" \
+        LDFLAGS="${configure.ldflags}" \
+        CPPFLAGS="${configure.cppflags}" \
+        CFLAGS="${configure.cflags} ${configure.cc_archflags}" \
+        CXXFLAGS="${configure.cxxflags}" \
+        MPIEXEC=${prefix}/bin/${mpi.exec} \
+        --disable-cxx \
+        --disable-f77 \
+        --disable-assert \
+        --enable-i4 \
+        --with-mpi \
+        --with-mpi-ts \
+        --enable-autodetect=yes \
+        --without-blas \
+        --without-lapack \
+        --without-scalapack \
+        --enable-shared=yes \
+        --enable-static=yes \
+        --prefix=${prefix}
+
+}
 
 variant static description {Build only static libraries.} {
     configure.args-delete --enable-shared=yes
@@ -66,11 +81,16 @@ variant static description {Build only static libraries.} {
 
 variant cxx description {Build with C++ API.} {
     configure.args-delete --disable-cxx
-    configure.args-append --enable-cxx MPICXX=${mpi.cxx}
+    configure.args-append --enable-cxx
 }
 
 variant fortran description {Build with Fortran API. } {
     configure.args-delete --disable-f77
-    configure.args-append --enable-f77 MPIF77=${mpi.fc}
+    configure.args-append --enable-f77
+}
+
+variant debug description { Build with debug information. } {
+    configure.cflags    -g
+    configure.cxxflags  -g
 }
 
