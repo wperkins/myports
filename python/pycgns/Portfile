@@ -34,8 +34,8 @@ python.versions         27
 
 if {${name} ne ${subport}} {
     depends_lib-append \
-        port:py${python.version}-numarray \
-        port:py${python.version}-pyqt \
+        port:py${python.version}-numpy \
+        port:py${python.version}-qtpy \
         port:hdf5 \
         port:vtk
 
