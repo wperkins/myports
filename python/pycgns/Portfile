@@ -1,0 +1,46 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; truncate-lines: t; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem              1.0
+PortGroup               python 1.0
+PortGroup               active_variants 1.1
+
+name                    py-cgns
+version                 5.0
+revision                0
+categories-append       science
+platforms               darwin
+maintainers             openmaintainer
+description             Python interface to the CGNS library
+
+long_description        \
+    The pyCGNS Python module is a collection of 7 modules around the \
+    CGNS standard. Before v4, these modules were independent Python \
+    modules with more or less dependancies to each other. We gather \
+    all of them to have a common build/install/doc and test process, \
+    moreover this insures a better consistency between them.
+
+
+homepage                https://pycgns.github.io/
+
+fetch.type              git
+git.url                 https://github.com/wperkins/pyCGNS.git
+# git.branch              165bc4b 
+
+worksrcdir              pyCGNS
+
+python.default_version  27
+python.versions         27
+
+if {${name} ne ${subport}} {
+    depends_lib-append \
+        port:py${python.version}-numarray \
+        port:py${python.version}-pyqt \
+        port:hdf5 \
+        port:vtk
+
+    require_active_variants vtk python${python.version}
+
+    depends_build-append port:cgnslib port:py${python.version}-cython
+}
+
