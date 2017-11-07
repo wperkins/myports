@@ -7,7 +7,7 @@ PortGroup           compilers 1.0
 
 name                cgnslib
 version             3.2.1
-revision            1
+revision            2
 set branch          [join [lrange [split ${version} .] 0 1] .]
 set minor           [lindex [split ${version} .] end]
 
@@ -45,8 +45,8 @@ compilers.setup     -dragonegg -g95
 configure.args-append \
     -D CGNS_BUILD_CGNSTOOLS:BOOL=OFF \
     -D CGNS_BUILD_SHARED:BOOL=OFF \
-    -D CGNS_USE_SHARED:BOOL=OFF \
-    -D CGNS_ENABLE_LEGACY:BOOL=OFF \
+    -D CGNS_USE_SHARED:BOOL=ON \
+    -D CGNS_ENABLE_LEGACY:BOOL=ON \
     -D CGNS_ENABLE_64BIT:BOOL=OFF \
     -D CGNS_ENABLE_TESTS:BOOL=OFF \
     -D CGNS_ENABLE_HDF5:BOOL=TRUE \
@@ -57,10 +57,10 @@ configure.args-append \
     -D HDF5_NEED_SZIP:BOOL=FALSE
 
 
-# variant tools description { Build and install CGNS tools. } {
-#     configure.args-delete "-D CGNS_BUILD_CGNSTOOLS:BOOL=OFF"
-#     configrue.args-append "-D CGNS_BUILD_CGNSTOOLS:BOOL=ON"
-# }
+variant tools description { Build and install CGNS tools. } {
+    configure.args-delete "-D CGNS_BUILD_CGNSTOOLS:BOOL=OFF"
+    configure.args-append "-D CGNS_BUILD_CGNSTOOLS:BOOL=ON"
+}
 
 variant fortran description {Build with Fortran API. } {
     configure.args-append "-D CGNS_ENABLE_FORTRAN:BOOL=ON"
