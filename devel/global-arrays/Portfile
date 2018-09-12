@@ -6,7 +6,7 @@ PortGroup           mpi 1.0
 PortGroup           github 1.0
 
 name                global-arrays
-version             5.6.2
+version             5.7
 revision            1
 categories          math
 license             BSD
@@ -28,9 +28,9 @@ github.setup        GlobalArrays ga ${version} v
 universal_variant   no
 worksrcdir          ga-${version}
 
-checksums           sha1    f7a0cb74e499f0029405c2cd34fc71e4ac292600 \
-                    rmd160  2e6b0b7fd9f46077ba700543801920f7a56bea15 \
-                    sha256  1fd17c78eecaf6186333f3633230c67a210098a87d9934a9613c084d3e4ddb0f
+checksums           sha1    c576ccb67079d2ac95e7fe7068251759db5cb9b1 \
+                    rmd160  acc8d1cd87e7f4692ea0ef8dc5c7d86f6c225b47 \
+                    sha256  6d30716653341f3e445fe711310a92a88e638312d83625621cbb779bb8b6f1aa
 
 mpi.setup           require -gcc
 
