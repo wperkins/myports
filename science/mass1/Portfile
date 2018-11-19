@@ -34,7 +34,7 @@ post-fetch {
 configure.fcflags-append -ffpe-trap=invalid,zero,overflow
 
 compilers.choose    fc f77 f90
-compilers.setup     require_fortran -dragonegg -g95
+compilers.setup     require_fortran -g95
 
 conflicts           mass1-devel
 universal_variant   no
