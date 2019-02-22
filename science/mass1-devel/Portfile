@@ -4,7 +4,7 @@ PortGroup           cmake 1.0
 
 name                mass1-devel
 version             2.0
-revision            0
+revision            1
 categories          science
 license             BSD
 platforms           darwin
@@ -27,11 +27,8 @@ long_description    MASS1 is a one-dimensional unsteady hydrodynamic \
 homepage            https://github.com/pnnl/mass1
 
 fetch.type          git
-git.url             https://stash.pnnl.gov/scm/~d3g096/mass1.git
+git.url             https://github.com/pnnl/mass1.git
 git.branch          dhsvm
-post-fetch {
-    system -W ${worksrcpath} "git submodule update --init"
-}
 
 use_parallel_build  no
 
