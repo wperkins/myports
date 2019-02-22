@@ -7,7 +7,7 @@ PortGroup           compilers 1.0
 
 name                cgnslib
 version             3.2.1
-revision            3
+revision            4
 set branch          [join [lrange [split ${version} .] 0 1] .]
 set minor           [lindex [split ${version} .] end]
 
@@ -35,12 +35,15 @@ worksrcdir          CGNS-v${version}
 checksums           sha1    29c4056da95f497745c207f88b83a7bab6ab785f \
                     rmd160  d95ac10a6bff168f607f98002b2f0c37d7245f1e
 
-# HDF5 > 1.8 does not work with CGNS 3.2.1, use 1.8.x
-# depends_lib         port:hdf5
-depends_lib         port:hdf5-18
+patchfiles          cgnslib-tools.patch
+
+# HDF5 > 1.8 does not work (well) with CGNS 3.2.1, but using 1.8 is a
+# real pain
+depends_lib         port:hdf5
+# depends_lib         port:hdf5-18
 
 compilers.choose    fc f90
-compilers.setup     -dragonegg -g95
+compilers.setup     -g95
 
 configure.args-append \
     -D CGNS_BUILD_CGNSTOOLS:BOOL=OFF \
@@ -50,8 +53,8 @@ configure.args-append \
     -D CGNS_ENABLE_64BIT:BOOL=OFF \
     -D CGNS_ENABLE_TESTS:BOOL=OFF \
     -D CGNS_ENABLE_HDF5:BOOL=TRUE \
-    -D HDF5_INCLUDE_PATH:PATH="${prefix}/lib/hdf5-18/include" \
-    -D HDF5_LIBRARY:PATH="${prefix}/lib/hdf5-18/lib/libhdf5.a" \
+    -D HDF5_INCLUDE_PATH:PATH="${prefix}/include" \
+    -D HDF5_LIBRARY:PATH="${prefix}/lib/libhdf5.a" \
     -D HDF5_NEED_MPI:BOOL=FALSE \
     -D HDF5_NEED_ZLIB:BOOL=TRUE \
     -D HDF5_NEED_SZIP:BOOL=FALSE
